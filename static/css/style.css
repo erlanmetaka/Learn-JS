@@ -1,17 +1,53 @@
-.container-1, .container-2, .container-3 {
-  width: 75%;
+.container-1, .container-2, .container-3, .container-4  {
   border: 1px solid darkgray;
+  width: 75%;
   margin: 0 auto;
   text-align: center;
 }
 
-.flex-box-container-1, .flex-box-container-2, .flex-box-rps {
+.flex-box-container-1, .flex-box-container-2, .flex-box-rps, 
+.flex-blackjack-row1, .flex-blackjack-row2, .flex-blackjack-row3 {
   display: flex;
   border: 1px solid grey;
   padding: 10px;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-around;
+}
+
+.flex-blackjack-row1, .flex-blackjack-row2, .flex-blackjack-row3 {
+  background:url(https://st3.depositphotos.com/6132662/34538/v/450/depositphotos_345381036-stock-illustration-dark-mode-background-for-website.jpg) center;
+  color: #fff;
+}
+
+.flex-blackjack-row1 div {
+  border: 1px solid grey;
+  padding: 10px;
+  flex: 1;
+  text-align: center;
+  height: 350px;
+}
+
+.flex-blackjack-row1 img {
+  width: 25%;
+  padding: 10px;
+}
+
+.flex-blackjack-row2 button {
+  border: 1px solid grey;
+  padding: 10px;
+}
+
+.flex-blackjack-row2 div {
+  border: 1px solid grey;
+  padding: 10px;
+}
+
+table, th, td {
+  padding: 5px;
+  border: 1px solid grey;
+  text-align: center;
+  color: #fff;
 }
 
 .flex-box-container-1 div {
