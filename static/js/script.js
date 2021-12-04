@@ -102,8 +102,20 @@ function rpsFrontEnd(humanImageChoice, botImageChoice, finalMessage) {
 // Challenge 4: BlackJack
 
 let blackjackGame = {
-  'you' : {'scoreSpan': '#your-blackjack-result', 'div': '#your-box', 'score':0},
-  'dealer' : {'scoreSpan': '#dealer-blackjack-result', 'div': '#dealer-box', 'score':0},
+  'you': { 'scoreSpan': '#your-blackjack-result', 'div': '#your-box', 'score': 0 },
+  'dealer': { 'scoreSpan': '#dealer-blackjack-result', 'div': '#dealer-box', 'score': 0 },
+  'cards': ['2_a', '2_b', '2_c', '2_d', '3_a', '3_b', '3_c', '3_d', '4_a', '4_b', '4_c', '4_d',
+    '5_a', '5_b', '5_c', '5_d', '6_a', '6_b', '6_c', '6_d', '7_a', '7_b', '7_c', '7_d',
+    '8_a', '8_b', '8_c', '8_d', '9_a', '9_b', '9_c', '9_d', '10_a', '10_b', '10_c', '10_d',
+    '11_a', '11_b', '11_c', '11_d', '12_a', '12_b', '12_c', '12_d', '13_a', '13_b', '13_c', '13_d',
+    '14_a', '14_b', '14_c', '14_d'],
+  'cardsMap': {
+    '2_a': 2, '2_b': 2, '2_c': 2, '2_d': 2, '3_a': 3, '3_b': 3, '3_c': 3, '3_d': 3, '4_a': 4, '4_b': 4, '4_c': 4, '4_d': 4,
+    '5_a': 5, '5_b': 5, '5_c': 5, '5_d': 5, '6_a': 6, '6_b': 6, '6_c': 6, '6_d': 6, '7_a': 7, '7_b': 7, '7_c': 7, '7_d': 7,
+    '8_a': 8, '8_b': 8, '8_c': 8, '8_d': 8, '9_a': 9, '9_b': 9, '9_c': 9, '9_d': 9, '10_a': 10, '10_b': 10, '10_c': 10, '10_d': 10,
+    '11_a': 10, '11_b': 10, '11_c': 10, '11_d': 10, '12_a': 10, '12_b': 10, '12_c': 10, '12_d': 10, '13_a': 10, '13_b': 10, '13_c': 10, '13_d': 10,
+    '14_a': [1, 11], '14_b': [1, 11], '14_c': [1, 11], '14_d': [1, 11]
+  },
 };
 
 const YOU = blackjackGame['you']
@@ -116,25 +128,54 @@ document.querySelector('#blackjack-hit-button').addEventListener('click', blackj
 document.querySelector('#blackjack-deal-button').addEventListener('click', blackjackDeal);
 
 function blackjackHit() {
-  showCard(YOU);  
+  let card = randomCard();
+  // console.log(card);
+  showCard(card, YOU);
+  updateScore(card, YOU);
+  showScore(YOU);
+  // console.log(YOU['score']);
 }
 
-function showCard(activePlayer) {
-  let cardImage = document.createElement('img');
-  cardImage.src = 'static/images/black_joker.png';
-  document.querySelector(activePlayer['div']).appendChild(cardImage);
-  hitSound.play();
+function randomCard() {
+  let randomIndex = Math.floor(Math.random() * 53);
+  return blackjackGame['cards'][randomIndex];
+}
+
+function showCard(card, activePlayer) {
+  if (activePlayer['score'] <= 21) {
+    let cardImage = document.createElement('img');
+    cardImage.src = `static/images/${card}.png`;
+    document.querySelector(activePlayer['div']).appendChild(cardImage);
+    hitSound.play();
+  }
 }
 
 function blackjackDeal() {
   let yourImages = document.querySelector('#your-box').querySelectorAll('img');
   let dealerImages = document.querySelector('#dealer-box').querySelectorAll('img');
-  // console.log(yourImages);
-  for (i=0; i < yourImages.length; i++) {
+  // console. log(yourImages);
+  for (i = 0; i < yourImages.length; i++) {
     yourImages[i].remove();
   }
 
-  for (i=0; i < dealerImages.length; i++) {
+  for (i = 0; i < dealerImages.length; i++) {
     dealerImages[i].remove();
   }
+}
+
+function updateScore(card, activePlayer) {
+  if (card === '14_a' ||  card === '14_b' || card === '14_c' ||  card === '14_d') {
+    if (activePlayer['score'] + blackjackGame['cardsMap'][card][1] <= 21) {
+      activePlayer['score'] += blackjackGame['cardsMap'][card][1];
+    } else {
+      activePlayer['score'] += blackjackGame['cardsMap'][card][0];
+    }
+
+  } else {
+    activePlayer['score'] += blackjackGame['cardsMap'][card];
+  }
+}
+
+function showScore(activePlayer) {
+  document.querySelector(activePlayer['scoreSpan']).textContent = activePlayer['score'];
 }
