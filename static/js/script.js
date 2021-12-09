@@ -251,8 +251,8 @@ function showResult(winner) {
   } else {
     message = 'You drew!';
     messageColor = 'black';
-  }
+  }                                                                                                                               
 
   document.querySelector('#blackjack-result').textContent = message;
   document.querySelector('#blackjack-result').style.color = messageColor;
-}
+} 
